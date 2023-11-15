@@ -146,12 +146,23 @@ export default function App() {
 }
 
 function CurrencyValue({ disabled, value, onChange }) {
+  // Allows any number of digits before the decimal
+  // and up to 2 digits after the decimal
+  const pattern = /^\d+(\.\d{0,2})?$/;
+
+  function handleChange(value) {
+    if (pattern.test(value)) {
+      onChange(value);
+    }
+  }
+
   return (
     <input
       type="text"
+      pattern={pattern}
       disabled={disabled}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => handleChange(e.target.value)}
     />
   );
 }
