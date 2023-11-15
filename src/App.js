@@ -36,6 +36,18 @@ export default function App() {
       const controller = new AbortController();
 
       async function fetchConversion() {
+        if (fromUnits === toUnits) {
+          console.log(
+            "Converting from ",
+            fromUnits,
+            " to: ",
+            toUnits,
+            " Exiting..."
+          );
+          setToCurrency(fromCurrency);
+          return;
+        }
+
         try {
           setIsLoading(true);
           setError("");
