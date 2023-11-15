@@ -15,19 +15,6 @@ export default function App() {
 
   useEffect(
     function fetchConversion() {
-      function getResult(dataObj, toUnits) {
-        if (toUnits === "USD") {
-          return dataObj.rates.USD;
-        } else if (toUnits === "EUR") {
-          return dataObj.rates.EUR;
-        } else if (toUnits === "CAD") {
-          return dataObj.rates.CAD;
-        } else if (toUnits === "INR") {
-          return dataObj.rates.INR;
-        }
-        return dataObj.rates.USD;
-      }
-
       // This API allows us to abort the request in a cleanup function
       // when a second request comes in while this one is running.
       // To do this, we pass controller.signal in the fetch request,
@@ -59,6 +46,7 @@ export default function App() {
             " to:",
             toUnits
           );
+          /* Web API for Conversion: See: https://www.frankfurter.app/docs/#conversion */
           const res = await fetch(
             `https://api.frankfurter.app/latest?amount=${fromCurrency}&from=${fromUnits}&to=${toUnits}`,
             { signal: controller.signal }
@@ -71,17 +59,24 @@ export default function App() {
           if (data.Response === "False")
             throw new Error("Currency Conversion Failed!");
 
-          //          const result = data?.rates.{toCurrency};
-          //          console.log(`Result: ${result} in ${toCurrency} using ${resultStr}`);
-          var result = getResult(data, toUnits);
-          console.log(result);
+          /* Result Object
+             See: https://www.frankfurter.app/docs/#conversion
+             data {
+              amount :1    // fromCurrency
+              base: "USD"  // fromUnits
+              date: "2023-11-14"
+              rates:         // Rates object: potentially an array?
+                 EUR: 0.93   // FromUnits=Key, toCurrency Value
+             }
+          */
+          var result = data.rates[toUnits];
           console.log(result);
 
           setToCurrency(result);
-          //setToCurrency(result);
           setConversionString(
-            ` Converted ${data.base} using ${data.rates} on ${data.date}`
+            ` Converted ${data.base} to ${toUnits} = ${result} on ${data.date}`
           );
+          console.log(conversionString);
         } catch (err) {
           if (err.name !== "AbortError") {
             console.log(err.message);
@@ -99,7 +94,7 @@ export default function App() {
         console.log("Unmount");
       };
     },
-    [fromCurrency, toCurrency, fromUnits, toUnits]
+    [fromCurrency, toCurrency, fromUnits, toUnits, conversionString]
   );
 
   function handleCurrencyChanged(value) {
