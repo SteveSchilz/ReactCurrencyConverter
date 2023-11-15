@@ -131,6 +131,11 @@ export default function App() {
       />
 
       <p>
+        {error !== "" && (
+          <p>
+            Error: {error}, isLoading: {isLoading}
+          </p>
+        )}
         <CurrencyValue value={toCurrency}>
           disabled={true}
           {conversionString}
