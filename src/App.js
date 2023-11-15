@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 
-// TODO: defaultCurency not working
-
 export default function App() {
   const [fromCurrency, setFromCurrency] = useState(1);
   const [toCurrency, setToCurrency] = useState(0);
@@ -116,7 +114,6 @@ export default function App() {
     <div>
       <CurrencyValue
         value={fromCurrency}
-        disabled={false}
         onChange={handleCurrencyChanged}
       ></CurrencyValue>
       <CurrencySelector
@@ -136,16 +133,13 @@ export default function App() {
             Error: {error}, isLoading: {isLoading}
           </p>
         )}
-        <CurrencyValue value={toCurrency}>
-          disabled={true}
-          {conversionString}
-        </CurrencyValue>
+        <DisplayResult value={toCurrency} infoString={conversionString} />
       </p>
     </div>
   );
 }
 
-function CurrencyValue({ disabled, value, onChange }) {
+function CurrencyValue({ value, onChange }) {
   // Allows any number of digits before the decimal
   // and up to 2 digits after the decimal
   const pattern = /^\d+(\.\d{0,2})?$/;
@@ -160,10 +154,19 @@ function CurrencyValue({ disabled, value, onChange }) {
     <input
       type="text"
       pattern={pattern}
-      disabled={disabled}
       value={value}
       onChange={(e) => handleChange(e.target.value)}
     />
+  );
+}
+
+function DisplayResult({ value, infoString }) {
+  return (
+    <>
+      <p>
+        <em>Result:</em> {value.toFixed(2)}
+      </p>
+    </>
   );
 }
 
