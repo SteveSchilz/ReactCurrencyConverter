@@ -11,7 +11,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false); // true while fetching
   const [error, setError] = useState(""); // Error string if any
 
-  //const CONVERSIONS = ["USD", "EUR", "CAD", "INR"];
+  const CURRENCY_LIST = ["USD", "EUR", "CAD", "INR", "GBP"];
 
   useEffect(
     function fetchConversion() {
@@ -124,8 +124,16 @@ export default function App() {
         disabled={false}
         onChange={handleCurrencyChanged}
       ></CurrencyValue>
-      <CurrencySelector currency={fromUnits} onChange={handleFromChanged} />
-      <CurrencySelector currency={toUnits} onChange={handleToChanged} />
+      <CurrencySelector
+        currency={fromUnits}
+        currencies={CURRENCY_LIST}
+        onChange={handleFromChanged}
+      />
+      <CurrencySelector
+        currency={toUnits}
+        currencies={CURRENCY_LIST}
+        onChange={handleToChanged}
+      />
 
       <p>
         <CurrencyValue value={toCurrency}>
@@ -148,13 +156,14 @@ function CurrencyValue({ disabled, value, onChange }) {
   );
 }
 
-function CurrencySelector({ currency, onChange }) {
+function CurrencySelector({ currency, currencies, onChange }) {
   return (
     <select value={currency} onChange={(e) => onChange(e.target.value)}>
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="CAD">CAD</option>
-      <option value="INR">INR</option>
+      {currencies.map((v, index) => (
+        <option key={index} value={v}>
+          {v}
+        </option>
+      ))}
     </select>
   );
 }
