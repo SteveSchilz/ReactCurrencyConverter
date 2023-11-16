@@ -1,4 +1,43 @@
+/* Style html body element(s) */
+body {
+  font-family: sans-serif;
+  text-align: center;
+  /*  background-color: rgba(46, 138, 13, 0.551); */
+  //background-image: linear-gradient(red, yellow);
+}
+
+#root {
+  padding: 20px;
+  background-image: linear-gradient(
+    rgba(46, 138, 13, 0.551),
+    rgba(46, 138, 13, 1)
+  );
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
+  background-color: green;
+}
+
+.DropDowns {
+  margin: 4px;
+  padding: 2px;
+  padding-left: 20px;
+}
+
+/* NOTE Styling options requires
+ * special handling that we are not 
+ * going to bother with here 
+ */
+.Inputs {
+  margin: 4px;
+  padding: 2px;
+}
+
+.Outputs {
+  margin: 8px;
+  padding: 2px;
+  font-size: 2em;
+  color: blue;
 }

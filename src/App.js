@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./styles.css";
 
 export default function App() {
   const [fromCurrency, setFromCurrency] = useState(1);
@@ -113,6 +114,17 @@ export default function App() {
 
   return (
     <div>
+      <h1>Simple Currency Converter</h1>
+      <p>
+        Uses{" "}
+        <a
+          href="https://www.frankfurter.app/docs/#conversion"
+          alt="Frankfurter.app online currency converter"
+        >
+          Frankfurter.app online currency converter
+        </a>{" "}
+        to perform the conversion
+      </p>
       <CurrencyValue
         value={fromCurrency}
         onChange={handleCurrencyChanged}
@@ -121,11 +133,13 @@ export default function App() {
         currency={fromUnits}
         currencies={CURRENCY_LIST}
         onChange={handleFromChanged}
+        styles="DropDowns"
       />
       <CurrencySelector
         currency={toUnits}
         currencies={CURRENCY_LIST}
         onChange={handleToChanged}
+        styles="DropDowns"
       />
 
       <p>
@@ -157,6 +171,7 @@ function CurrencyValue({ value, onChange }) {
       pattern={pattern}
       value={value}
       onChange={(e) => handleChange(e.target.value)}
+      className="Inputs"
     />
   );
 }
@@ -164,16 +179,20 @@ function CurrencyValue({ value, onChange }) {
 function DisplayResult({ value, infoString }) {
   return (
     <>
-      <p>
+      <p className="Outputs">
         <em>Result:</em> {value.toFixed(2)}
       </p>
     </>
   );
 }
 
-function CurrencySelector({ currency, currencies, onChange }) {
+function CurrencySelector({ currency, currencies, onChange, styles }) {
   return (
-    <select value={currency} onChange={(e) => onChange(e.target.value)}>
+    <select
+      className={styles}
+      value={currency}
+      onChange={(e) => onChange(e.target.value)}
+    >
       {currencies.map((v, index) => (
         <option key={index} value={v}>
           {v}
