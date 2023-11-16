@@ -29,7 +29,8 @@ export default function App() {
             toUnits,
             " Exiting..."
           );
-          setToCurrency(fromCurrency);
+          // This was blowing up when it changed the result to a string
+          setToCurrency(Number(fromCurrency));
           return;
         }
 
@@ -67,7 +68,7 @@ export default function App() {
                  EUR: 0.93   // FromUnits=Key, toCurrency Value
              }
           */
-          var result = data.rates[toUnits];
+          var result = Number(data.rates[toUnits]);
           console.log(result);
 
           setToCurrency(result);
